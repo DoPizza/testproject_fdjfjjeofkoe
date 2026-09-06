@@ -8,7 +8,7 @@ BACKEND_URL = "https://ulsk-backend.ps3040678.workers.dev/api/add-event"
 # Генерируем тестовое мероприятие с текущим временем
 current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 event_data = {
-    "title": f"Тестовый концерт в Ульяновске ({current_time})"
+    "title": f"Соси за хуй в Ульяновске ({current_time})"
 }
 
 try:
