@@ -1,21 +1,38 @@
+
 import requests
 import datetime
 
-# Сюда вставьте вашу реальную ссылку на бэкенд Cloudflare (которую вы получили при деплое)
-# Не забудьте в конце добавить /api/add-event
-BACKEND_URL = "https://ulsk-backend.ps3040678.workers.dev/api/add-event"
+# Наш Stormkit backend
+BACKEND_URL = "https://fangdenim-lwsvow.stormkit.dev/api/add-event"
 
-# Генерируем тестовое мероприятие с текущим временем
+# Текущее время
 current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+# Тестовое мероприятие
 event_data = {
-    "title": f"Соси за хуй в Ульяновске ({current_time})"
+    "title": f"Тестовый парсер Ульяновска ({current_time})",
+    "status": "pending",
+    "description": "Мероприятие добавлено тестовым Python-парсером"
 }
 
 try:
-    # Отправляем POST-запрос на ваш бэкенд
-    response = requests.post(BACKEND_URL, json=event_data)
-    
+    response = requests.post(
+        BACKEND_URL,
+        json=event_data,
+        timeout=15
+    )
+
     print("Статус код ответа:", response.status_code)
-    print("Ответ от сервера:", response.json())
-except Exception as e:
-    print("Произошла ошибка при отправке:", e)
+
+    try:
+        print("Ответ от сервера:", response.json())
+    except Exception:
+        print("Ответ от сервера:", response.text)
+
+    if response.ok:
+        print("✅ Мероприятие успешно добавлено!")
+    else:
+        print("❌ Сервер вернул ошибку.")
+
+except requests.exceptions.RequestException as e:
+    print("❌ Ошибка соединения с сервером:", e)
