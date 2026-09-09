@@ -1,0 +1,307 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Админ-панель</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0;
+
+            font-size: 26px;
+        }
+
+        button {
+            border: none;
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            background: #222;
+            color: white;
+
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        #events {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .event {
+            background: white;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .event-title {
+            margin-bottom: 8px;
+
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .event-info {
+            color: #666;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        .status {
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 4px 8px;
+
+            border-radius: 5px;
+
+            background: #eee;
+
+            font-size: 13px;
+        }
+
+        .loading {
+            padding: 30px;
+
+            text-align: center;
+
+            color: #777;
+        }
+
+        .error {
+            padding: 20px;
+
+            background: #ffe8e8;
+
+            color: #c00;
+
+            border-radius: 8px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <h1>
+                Админ-панель
+            </h1>
+
+            <button onclick="loadEvents()">
+                Обновить
+            </button>
+
+        </header>
+
+
+        <div id="events">
+
+            <div class="loading">
+                Загрузка...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const API_URL =
+            "https://fangdenim-lwsvow.stormkit.dev/api/events";
+
+
+        async function loadEvents() {
+
+            const container =
+                document.getElementById("events");
+
+
+            container.innerHTML = `
+                <div class="loading">
+                    Загрузка...
+                </div>
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch(API_URL);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `HTTP ${response.status}`
+                    );
+
+                }
+
+
+                const events =
+                    await response.json();
+
+
+                if (
+                    !Array.isArray(events) ||
+                    events.length === 0
+                ) {
+
+                    container.innerHTML = `
+                        <div class="loading">
+                            Мероприятий нет
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                container.innerHTML =
+                    events.map(event => `
+
+                        <div class="event">
+
+                            <div class="event-title">
+                                ${event.title || "Без названия"}
+                            </div>
+
+
+                            <div class="event-info">
+
+                                ID: ${event.id || "—"}
+
+                                <br>
+
+                                Дата:
+                                ${event.start_date || "—"}
+
+                                <br>
+
+                                Цена:
+                                ${
+                                    event.price !== null &&
+                                    event.price !== undefined
+                                        ? event.price + " ₽"
+                                        : "—"
+                                }
+
+                                <br>
+
+                                Вещатель:
+                                ${event.broadcaster || "—"}
+
+                            </div>
+
+
+                            ${
+                                event.status
+                                    ? `
+                                        <div class="status">
+                                            ${event.status}
+                                        </div>
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                    `).join("");
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                container.innerHTML = `
+
+                    <div class="error">
+
+                        Не удалось загрузить мероприятия.
+
+                        <br><br>
+
+                        ${error.message}
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        loadEvents();
+
+    </script>
+
+</body>
+
+</html>
+```
