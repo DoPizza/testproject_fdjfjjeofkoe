@@ -905,7 +905,7 @@
                             class="event-broadcaster"
                         >
 
-                            📢 Вещатель:
+                            📢🔗 Вещатель:
 
                             <span>
 
@@ -923,40 +923,7 @@
 
 
 
-            // ======================================
-            // ИСТОЧНИК
-            // ======================================
-
-            let sourceHTML = "";
-
-
-            if (
-                event.source_url &&
-                event.source_url.trim() !== ""
-            ) {
-
-                sourceHTML = `
-
-                    <div class="event-source">
-
-                        🔗
-
-                        <a
-                            href="${event.source_url}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-
-                            "${event.broadcaster || "Источник"}"
-
-                        </a>
-
-                    </div>
-
-                `;
-
-            }
-
+            
 
 
             // ======================================
