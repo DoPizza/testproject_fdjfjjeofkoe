@@ -935,9 +935,8 @@
             );
 
 
-        // ======================================
-        // ИЗМЕНЕНИЕ СТАТУСА
-        // ======================================
+        
+
 
         async function changeStatus(id) {
 
@@ -946,15 +945,12 @@
                     "Введите новый статус:\n\npending\napproved\nrejected"
                 );
 
-
             if (status === null) {
                 return;
             }
 
-
             const newStatus =
                 status.trim();
-
 
             if (!newStatus) {
 
@@ -966,14 +962,13 @@
 
             }
 
-
             try {
 
                 const response =
                     await fetch(
-                        `${API_URL}/${id}/status`,
+                        `${API_URL}/${id}`,
                         {
-                            method: "PATCH",
+                            method: "PUT",
 
                             headers: {
                                 "Content-Type":
@@ -987,10 +982,8 @@
                         }
                     );
 
-
                 const result =
                     await response.json();
-
 
                 if (!response.ok) {
 
@@ -1001,14 +994,11 @@
 
                 }
 
-
                 showMessage(
                     "Статус изменён"
                 );
 
-
                 loadEvents();
-
 
             } catch (error) {
 
@@ -1022,8 +1012,6 @@
             }
 
         }
-
-
         // ======================================
         // УДАЛЕНИЕ
         // ======================================
