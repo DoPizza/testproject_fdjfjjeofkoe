@@ -2,489 +2,75 @@
 <html lang="ru">
 
 <head>
+
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Админ-панель — Афиша Ульяновска</title>
+    <title>Админка мероприятий</title>
 
     <style>
 
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
-            padding: 30px 15px;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            background: #f5f5f5;
-            color: #222;
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
-        .container {
+        input,
+        textarea,
+        select {
             width: 100%;
-            max-width: 1100px;
-
-            margin: 0 auto;
+            max-width: 500px;
+            box-sizing: border-box;
+            padding: 8px;
+            margin-top: 5px;
         }
 
-
-        /* ================================
-           HEADER
-           ================================ */
-
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 15px;
-
-            margin-bottom: 20px;
+        textarea {
+            min-height: 100px;
+            resize: vertical;
         }
-
-        h1 {
-            margin: 0;
-
-            font-size: 28px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-
-        /* ================================
-           BUTTONS
-           ================================ */
 
         button {
-            border: none;
-
-            padding: 10px 14px;
-
-            border-radius: 8px;
-
-            background: #222;
-            color: white;
-
-            font-size: 14px;
-
+            padding: 8px 14px;
+            margin: 5px 5px 5px 0;
             cursor: pointer;
-
-            transition:
-                opacity .15s,
-                transform .1s;
         }
-
-        button:hover {
-            opacity: .85;
-        }
-
-        button:active {
-            transform: scale(.98);
-        }
-
-
-        /* ================================
-           FILTERS
-           ================================ */
-
-        .filters {
-            display: flex;
-
-            gap: 10px;
-
-            margin-bottom: 20px;
-        }
-
-        .filters input,
-        .filters select {
-            width: 100%;
-
-            padding: 11px 12px;
-
-            border: 1px solid #ddd;
-
-            border-radius: 8px;
-
-            background: white;
-
-            font-family: inherit;
-
-            font-size: 14px;
-        }
-
-        .filters input {
-            flex: 1;
-        }
-
-        .filters select {
-            max-width: 180px;
-        }
-
-
-        /* ================================
-           EVENTS
-           ================================ */
 
         .event {
-            display: grid;
-
-            grid-template-columns: 130px 1fr;
-
-            gap: 18px;
-
-            margin-bottom: 12px;
-
+            border: 1px solid #ccc;
             padding: 15px;
-
-            background: white;
-
-            border-radius: 12px;
-
-            box-shadow:
-                0 2px 8px rgba(0, 0, 0, .06);
-        }
-
-        .event-image {
-            width: 130px;
-            height: 130px;
-
-            object-fit: contain;
-
+            margin: 15px 0;
             border-radius: 8px;
-
-            background: #f0f0f0;
         }
 
-        .event-image.empty {
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            color: #999;
-
-            font-size: 13px;
+        .event h3 {
+            margin-top: 0;
         }
 
-        .event-title {
-            margin-bottom: 8px;
-
-            font-size: 19px;
-            font-weight: bold;
-        }
-
-        .event-info {
-            color: #666;
-
-            font-size: 14px;
-
-            line-height: 1.7;
-        }
-
-        .event-info strong {
-            color: #333;
-        }
-
-
-        /* ================================
-           STATUS
-           ================================ */
-
-        .status {
-            display: inline-block;
-
-            margin-top: 10px;
-
-            padding: 5px 9px;
-
-            border-radius: 6px;
-
-            background: #eee;
-
-            font-size: 13px;
-        }
-
-        .status.pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status.approved {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status.rejected {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-
-        /* ================================
-           ACTIONS
-           ================================ */
-
-        .actions {
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 8px;
-
-            margin-top: 14px;
-        }
-
-        .edit-button {
-            background: #333;
-        }
-
-        .status-button {
-            background: #555;
-        }
-
-        .delete-button {
-            background: #c62828;
-        }
-
-
-        /* ================================
-           LOADING / EMPTY / ERROR
-           ================================ */
-
-        .loading,
-        .empty {
-            padding: 40px;
-
-            text-align: center;
-
-            color: #777;
-        }
-
-        .error {
+        .form {
+            border: 1px solid #ccc;
             padding: 20px;
-
-            border-radius: 10px;
-
-            background: #ffe8e8;
-
-            color: #c00;
+            margin: 20px 0;
+            border-radius: 8px;
         }
-
-
-        /* ================================
-           MODAL
-           ================================ */
-
-        .modal {
-            position: fixed;
-
-            inset: 0;
-
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-
-            background: rgba(0, 0, 0, .55);
-
-            z-index: 1000;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            width: 100%;
-            max-width: 620px;
-
-            max-height: 90vh;
-
-            overflow-y: auto;
-
-            padding: 25px;
-
-            background: white;
-
-            border-radius: 12px;
-        }
-
-        .modal-header {
-            display: flex;
-
-            align-items: center;
-            justify-content: space-between;
-
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-        }
-
-        .close {
-            padding: 0 5px;
-
-            background: transparent;
-
-            color: #222;
-
-            font-size: 28px;
-        }
-
-
-        /* ================================
-           FORM
-           ================================ */
 
         .field {
             margin-bottom: 15px;
         }
 
-        .field label {
-            display: block;
-
-            margin-bottom: 6px;
-
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .field input,
-        .field textarea,
-        .field select {
-            width: 100%;
-
-            padding: 10px;
-
-            border: 1px solid #ddd;
-
-            border-radius: 7px;
-
-            font-family: inherit;
-
-            font-size: 14px;
-        }
-
-        .field textarea {
-            min-height: 110px;
-
-            resize: vertical;
-        }
-
-        .checkbox-field {
-            display: flex;
-            align-items: center;
-
-            gap: 8px;
-
-            margin-bottom: 15px;
-        }
-
-        .checkbox-field input {
-            width: 18px;
-            height: 18px;
-        }
-
-        .modal-actions {
-            display: flex;
-
-            justify-content: flex-end;
-
-            gap: 8px;
-
-            margin-top: 20px;
-        }
-
-        .cancel-button {
-            background: #ddd;
-            color: #222;
-        }
-
-
-        /* ================================
-           NOTIFICATION
-           ================================ */
-
-        .message {
-            position: fixed;
-
-            right: 20px;
-            bottom: 20px;
-
+        .hidden {
             display: none;
-
-            padding: 12px 16px;
-
-            border-radius: 8px;
-
-            background: #222;
-            color: white;
-
-            z-index: 2000;
         }
 
-        .message.active {
-            display: block;
+        .error {
+            color: red;
         }
 
-
-        /* ================================
-           MOBILE
-           ================================ */
-
-        @media (max-width: 650px) {
-
-            body {
-                padding: 20px 10px;
-            }
-
-            header {
-                align-items: flex-start;
-
-                flex-direction: column;
-            }
-
-            .filters {
-                flex-direction: column;
-            }
-
-            .filters select {
-                max-width: none;
-            }
-
-            .event {
-                grid-template-columns: 1fr;
-            }
-
-            .event-image {
-                width: 100%;
-                height: 180px;
-            }
-
-            .actions {
-                flex-direction: column;
-            }
-
-            .actions button {
-                width: 100%;
-            }
-
+        .success {
+            color: green;
         }
 
     </style>
@@ -494,112 +80,114 @@
 
 <body>
 
-<div class="container">
+
+    <!-- ========================================= -->
+    <!-- ВХОД -->
+    <!-- ========================================= -->
+
+    <div id="loginBlock">
+
+        <h2>
+            Вход в админку
+        </h2>
 
 
-    <header>
+        <div class="field">
 
-        <h1>
-            Админ-панель
-        </h1>
+            <label>
+                Email
+            </label>
 
-        <div class="header-actions">
-
-            <button onclick="loadEvents()">
-                🔄 Обновить
-            </button>
-
-        </div>
-
-    </header>
-
-
-    <!-- ФИЛЬТРЫ -->
-
-    <div class="filters">
-
-        <input
-            type="search"
-            id="search"
-            placeholder="Поиск по названию..."
-            oninput="renderEvents()"
-        >
-
-        <select
-            id="status-filter"
-            onchange="renderEvents()"
-        >
-
-            <option value="">
-                Все статусы
-            </option>
-
-            <option value="pending">
-                pending
-            </option>
-
-            <option value="approved">
-                approved
-            </option>
-
-            <option value="rejected">
-                rejected
-            </option>
-
-        </select>
-
-    </div>
-
-
-    <!-- МЕРОПРИЯТИЯ -->
-
-    <div id="events">
-
-        <div class="loading">
-            Загрузка...
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================
-     МОДАЛЬНОЕ ОКНО
-     ====================================== -->
-
-<div
-    id="edit-modal"
-    class="modal"
->
-
-    <div class="modal-content">
-
-
-        <div class="modal-header">
-
-            <h2>
-                Редактирование
-            </h2>
-
-            <button
-                class="close"
-                onclick="closeEditModal()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <form id="edit-form">
-
+            <br>
 
             <input
-                type="hidden"
-                id="edit-id"
+                id="email"
+                type="email"
+                placeholder="Email"
             >
 
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Пароль
+            </label>
+
+            <br>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Пароль"
+            >
+
+        </div>
+
+
+        <button id="login">
+            Войти
+        </button>
+
+
+        <p id="loginResult"></p>
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- АДМИНКА -->
+    <!-- ========================================= -->
+
+    <div
+        id="adminBlock"
+        class="hidden"
+    >
+
+
+        <h2>
+            Админка мероприятий
+        </h2>
+
+
+        <p>
+            Вы вошли в админку
+        </p>
+
+
+        <button id="logout">
+            Выйти
+        </button>
+
+
+        <button id="loadEvents">
+            Обновить мероприятия
+        </button>
+
+
+        <button id="createEventButton">
+            Создать мероприятие
+        </button>
+
+
+
+        <!-- ===================================== -->
+        <!-- ФОРМА СОЗДАНИЯ / РЕДАКТИРОВАНИЯ -->
+        <!-- ===================================== -->
+
+        <div
+            id="eventForm"
+            class="form hidden"
+        >
+
+            <h3 id="formTitle">
+                Создать мероприятие
+            </h3>
+
+
+            <!-- Название -->
 
             <div class="field">
 
@@ -607,112 +195,19 @@
                     Название
                 </label>
 
+                <br>
+
                 <input
+                    id="eventTitle"
                     type="text"
-                    id="edit-title"
-                    required
+                    placeholder="Название мероприятия"
                 >
 
             </div>
 
 
-            <div class="field">
 
-                <label>
-                    Описание
-                </label>
-
-                <textarea
-                    id="edit-description"
-                ></textarea>
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Дата начала
-                </label>
-
-                <input
-                    type="datetime-local"
-                    id="edit-start-date"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Дата окончания
-                </label>
-
-                <input
-                    type="datetime-local"
-                    id="edit-end-date"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Цена
-                </label>
-
-                <input
-                    type="number"
-                    id="edit-price"
-                    min="0"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    URL изображения
-                </label>
-
-                <input
-                    type="url"
-                    id="edit-image"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    URL источника
-                </label>
-
-                <input
-                    type="url"
-                    id="edit-source"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Вещатель
-                </label>
-
-                <input
-                    type="text"
-                    id="edit-broadcaster"
-                >
-
-            </div>
-
+            <!-- Статус -->
 
             <div class="field">
 
@@ -720,7 +215,9 @@
                     Статус
                 </label>
 
-                <select id="edit-status">
+                <br>
+
+                <select id="eventStatus">
 
                     <option value="pending">
                         pending
@@ -739,995 +236,1220 @@
             </div>
 
 
-            <label class="checkbox-field">
 
-                <input
-                    type="checkbox"
-                    id="edit-age"
-                >
+            <!-- Описание -->
 
-                <span>
-                    18+
-                </span>
+            <div class="field">
 
-            </label>
+                <label>
+                    Описание
+                </label>
 
+                <br>
 
-            <div class="modal-actions">
-
-                <button
-                    type="button"
-                    class="cancel-button"
-                    onclick="closeEditModal()"
-                >
-                    Отмена
-                </button>
-
-                <button type="submit">
-                    Сохранить
-                </button>
+                <textarea
+                    id="eventDescription"
+                    placeholder="Описание мероприятия"
+                ></textarea>
 
             </div>
 
 
-        </form>
+
+            <!-- Дата начала -->
+
+            <div class="field">
+
+                <label>
+                    Дата начала
+                </label>
+
+                <br>
+
+                <input
+                    id="eventStartDate"
+                    type="datetime-local"
+                >
+
+            </div>
+
+
+
+            <!-- Дата окончания -->
+
+            <div class="field">
+
+                <label>
+                    Дата окончания
+                </label>
+
+                <br>
+
+                <input
+                    id="eventEndDate"
+                    type="datetime-local"
+                >
+
+            </div>
+
+
+
+            <!-- Цена -->
+
+            <div class="field">
+
+                <label>
+                    Цена
+                </label>
+
+                <br>
+
+                <input
+                    id="eventPrice"
+                    type="number"
+                    placeholder="Цена"
+                >
+
+            </div>
+
+
+
+            <!-- Изображение -->
+
+            <div class="field">
+
+                <label>
+                    Ссылка на изображение
+                </label>
+
+                <br>
+
+                <input
+                    id="eventImage"
+                    type="url"
+                    placeholder="https://..."
+                >
+
+            </div>
+
+
+
+            <!-- Ссылка на источник -->
+
+            <div class="field">
+
+                <label>
+                    Ссылка на источник
+                </label>
+
+                <br>
+
+                <input
+                    id="eventSourceUrl"
+                    type="url"
+                    placeholder="https://..."
+                >
+
+            </div>
+
+
+
+            <!-- Организатор -->
+
+            <div class="field">
+
+                <label>
+                    Организатор
+                </label>
+
+                <br>
+
+                <input
+                    id="eventBroadcaster"
+                    type="text"
+                    placeholder="Название организатора"
+                >
+
+            </div>
+
+
+
+            <!-- 18+ -->
+
+            <div class="field">
+
+                <label>
+
+                    <input
+                        id="event18"
+                        type="checkbox"
+                        style="width: auto;"
+                    >
+
+                    18+
+
+                </label>
+
+            </div>
+
+
+
+            <!-- Кнопки формы -->
+
+            <button id="saveEvent">
+                Сохранить
+            </button>
+
+
+            <button id="cancelForm">
+                Отмена
+            </button>
+
+
+            <p id="formResult"></p>
+
+        </div>
+
+
+
+        <!-- ===================================== -->
+        <!-- СПИСОК МЕРОПРИЯТИЙ -->
+        <!-- ===================================== -->
+
+        <h3>
+            Все мероприятия
+        </h3>
+
+
+        <div id="events">
+
+            Загрузка...
+
+        </div>
+
 
     </div>
 
-</div>
 
 
-<div
-    id="message"
-    class="message"
-></div>
+    <!-- ========================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================= -->
 
+    <script type="module">
 
-<script>
 
+        // =========================================
+        // SUPABASE
+        // =========================================
 
-/* ======================================
-   API
-   ====================================== */
+        import { createClient } from
+            "https://esm.sh/@supabase/supabase-js";
 
-const API_URL =
-    "https://astonishing-pastelito-e6e568.netlify.app/api";
 
 
-let allEvents = [];
+        const supabase = createClient(
 
+            "https://tgyqyrullvofkezmqrkj.supabase.co",
 
-/* ======================================
-   ЗАГРУЗКА
-   ====================================== */
+            "sb_publishable_eGu4ybXLAizBBASrAXUVqw_UnFURjBt"
 
-async function loadEvents() {
-
-    const container =
-        document.getElementById("events");
-
-    container.innerHTML = `
-        <div class="loading">
-            Загрузка...
-        </div>
-    `;
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_URL}/events`
-            );
-
-        if (!response.ok) {
-
-            throw new Error(
-                `HTTP ${response.status}`
-            );
-
-        }
-
-        allEvents =
-            await response.json();
-
-        renderEvents();
-
-    } catch (error) {
-
-        console.error(error);
-
-        container.innerHTML = `
-            <div class="error">
-                Не удалось загрузить мероприятия.
-                <br><br>
-                ${escapeHTML(error.message)}
-            </div>
-        `;
-
-    }
-
-}
-
-
-/* ======================================
-   ОТОБРАЖЕНИЕ
-   ====================================== */
-
-function renderEvents() {
-
-    const container =
-        document.getElementById("events");
-
-    const search =
-        document
-            .getElementById("search")
-            .value
-            .trim()
-            .toLowerCase();
-
-    const status =
-        document
-            .getElementById("status-filter")
-            .value;
-
-
-    const events =
-        allEvents.filter(event => {
-
-            const title =
-                String(
-                    event.title || ""
-                ).toLowerCase();
-
-            const matchesSearch =
-                !search ||
-                title.includes(search);
-
-            const matchesStatus =
-                !status ||
-                event.status === status;
-
-            return (
-                matchesSearch &&
-                matchesStatus
-            );
-
-        });
-
-
-    if (events.length === 0) {
-
-        container.innerHTML = `
-            <div class="empty">
-                Мероприятий не найдено
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        events.map(event => {
-
-            const image =
-                event.image_url
-                    ? `
-                        <img
-                            class="event-image"
-                            src="${escapeAttribute(event.image_url)}"
-                            alt=""
-                            loading="lazy"
-                            onerror="this.style.display='none'"
-                        >
-                    `
-                    : `
-                        <div class="event-image empty">
-                            Нет изображения
-                        </div>
-                    `;
-
-
-            return `
-
-                <div
-                    class="event"
-                    data-id="${event.id}"
-                >
-
-                    <div>
-                        ${image}
-                    </div>
-
-
-                    <div>
-
-                        <div class="event-title">
-
-                            ${escapeHTML(
-                                event.title ||
-                                "Без названия"
-                            )}
-
-                        </div>
-
-
-                        <div class="event-info">
-
-                            <strong>ID:</strong>
-                            ${event.id ?? "—"}
-
-                            <br>
-
-                            <strong>Начало:</strong>
-                            ${formatDate(
-                                event.start_date
-                            )}
-
-                            <br>
-
-                            <strong>Окончание:</strong>
-                            ${formatDate(
-                                event.end_date
-                            )}
-
-                            <br>
-
-                            <strong>Цена:</strong>
-                            ${
-                                event.price !== null &&
-                                event.price !== undefined
-                                    ? `${event.price} ₽`
-                                    : "—"
-                            }
-
-                            <br>
-
-                            <strong>Вещатель:</strong>
-                            ${escapeHTML(
-                                event.broadcaster ||
-                                "—"
-                            )}
-
-                            <br>
-
-                            <strong>18+:</strong>
-                            ${event["18+"] === true
-                                ? "Да"
-                                : "Нет"
-                            }
-
-                        </div>
-
-
-                        ${
-                            event.status
-                                ? `
-                                    <div
-                                        class="
-                                            status
-                                            ${escapeAttribute(
-                                                event.status
-                                            )}
-                                        "
-                                    >
-                                        ${escapeHTML(
-                                            event.status
-                                        )}
-                                    </div>
-                                `
-                                : ""
-                        }
-
-
-                        <div class="actions">
-
-                            <button
-                                class="edit-button"
-                                onclick="openEditModal(${event.id})"
-                            >
-                                ✏️ Редактировать
-                            </button>
-
-
-                            <button
-                                class="status-button"
-                                onclick="changeStatus(${event.id})"
-                            >
-                                🔄 Статус
-                            </button>
-
-
-                            <button
-                                class="delete-button"
-                                onclick="deleteEvent(${event.id})"
-                            >
-                                🗑️ Удалить
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
-
-}
-
-
-/* ======================================
-   ОТКРЫТИЕ РЕДАКТИРОВАНИЯ
-   ====================================== */
-
-function openEditModal(id) {
-
-    const event =
-        allEvents.find(
-            item => Number(item.id) === Number(id)
         );
 
-    if (!event) {
-
-        showMessage(
-            "Мероприятие не найдено"
-        );
-
-        return;
-
-    }
 
 
-    document.getElementById("edit-id").value =
-        event.id ?? "";
+        // =========================================
+        // BACKEND
+        // =========================================
+
+        const API_URL =
+            "http://localhost:8888";
 
 
-    document.getElementById("edit-title").value =
-        event.title ?? "";
+
+        // =========================================
+        // JWT
+        // =========================================
+
+        let token = null;
 
 
-    document.getElementById("edit-description").value =
-        event.description ?? "";
+
+        // ID редактируемого мероприятия
+
+        let editingEventId = null;
 
 
-    document.getElementById("edit-start-date").value =
-        toLocalDateTime(event.start_date);
+
+        // =========================================
+        // ВХОД
+        // =========================================
+
+        document.getElementById("login").onclick =
+            async () => {
 
 
-    document.getElementById("edit-end-date").value =
-        toLocalDateTime(event.end_date);
+                const email =
+                    document.getElementById("email").value;
 
 
-    document.getElementById("edit-price").value =
-        event.price ?? "";
+                const password =
+                    document.getElementById("password").value;
 
 
-    document.getElementById("edit-image").value =
-        event.image_url ?? "";
+
+                const { data, error } =
+                    await supabase.auth.signInWithPassword({
+
+                        email: email,
+
+                        password: password
+
+                    });
 
 
-    document.getElementById("edit-source").value =
-        event.source_url ?? "";
+
+                if (error) {
+
+                    document.getElementById("loginResult")
+                        .textContent =
+                        "Ошибка: " + error.message;
+
+                    return;
+
+                }
 
 
-    document.getElementById("edit-broadcaster").value =
-        event.broadcaster ?? "";
+
+                // Получаем JWT
+
+                token =
+                    data.session.access_token;
 
 
-    document.getElementById("edit-status").value =
-        event.status ?? "pending";
+
+                // Скрываем вход
+
+                document.getElementById("loginBlock")
+                    .classList.add("hidden");
 
 
-    document.getElementById("edit-age").checked =
-        event["18+"] === true;
+
+                // Показываем админку
+
+                document.getElementById("adminBlock")
+                    .classList.remove("hidden");
 
 
-    document
-        .getElementById("edit-modal")
-        .classList.add("active");
 
-}
+                // Загружаем все мероприятия
 
-
-/* ======================================
-   ЗАКРЫТИЕ
-   ====================================== */
-
-function closeEditModal() {
-
-    document
-        .getElementById("edit-modal")
-        .classList.remove("active");
-
-}
-
-
-/* ======================================
-   СОХРАНЕНИЕ
-   ====================================== */
-
-document
-    .getElementById("edit-form")
-    .addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-
-            const id =
-                document
-                    .getElementById("edit-id")
-                    .value;
-
-
-            const data = {
-
-                id: Number(id),
-
-                title:
-                    document
-                        .getElementById("edit-title")
-                        .value
-                        .trim(),
-
-                description:
-                    document
-                        .getElementById("edit-description")
-                        .value
-                        .trim()
-                        || null,
-
-                start_date:
-                    localToISOString(
-                        document
-                            .getElementById("edit-start-date")
-                            .value
-                    ),
-
-                end_date:
-                    localToISOString(
-                        document
-                            .getElementById("edit-end-date")
-                            .value
-                    ),
-
-                price:
-                    document
-                        .getElementById("edit-price")
-                        .value === ""
-                        ? null
-                        : Number(
-                            document
-                                .getElementById("edit-price")
-                                .value
-                        ),
-
-                image_url:
-                    document
-                        .getElementById("edit-image")
-                        .value
-                        .trim()
-                        || null,
-
-                source_url:
-                    document
-                        .getElementById("edit-source")
-                        .value
-                        .trim()
-                        || null,
-
-                broadcaster:
-                    document
-                        .getElementById("edit-broadcaster")
-                        .value
-                        .trim()
-                        || null,
-
-                status:
-                    document
-                        .getElementById("edit-status")
-                        .value,
-
-                "18+":
-                    document
-                        .getElementById("edit-age")
-                        .checked
+                loadEvents();
 
             };
 
 
+
+        // =========================================
+        // ЗАГРУЗКА ВСЕХ МЕРОПРИЯТИЙ
+        // =========================================
+
+        async function loadEvents() {
+
+
+            const eventsBlock =
+                document.getElementById("events");
+
+
+            eventsBlock.textContent =
+                "Загрузка...";
+
+
+
             try {
+
 
                 const response =
                     await fetch(
-                        `${API_URL}/events/update`,
+
+                        API_URL + "/api/events",
+
                         {
-                            method: "POST",
+
+                            method: "GET",
 
                             headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
 
-                            body:
-                                JSON.stringify(data)
+                                Authorization:
+                                    "Bearer " + token
+
+                            }
+
                         }
+
                     );
 
 
-                const result =
+
+                const data =
                     await response.json();
 
 
+
+                // Ошибка backend
+
                 if (!response.ok) {
 
-                    throw new Error(
-                        result.error ||
-                        `HTTP ${response.status}`
-                    );
+                    eventsBlock.textContent =
+                        "Ошибка: " + data.error;
+
+                    return;
 
                 }
 
 
-                showMessage(
-                    "Мероприятие сохранено"
-                );
+
+                // Проверяем, что пришёл массив
+
+                if (!Array.isArray(data)) {
+
+                    eventsBlock.textContent =
+                        "Backend вернул не массив мероприятий.";
+
+                    return;
+
+                }
 
 
-                closeEditModal();
+
+                // Очищаем список
+
+                eventsBlock.innerHTML = "";
 
 
-                await loadEvents();
+
+                // Если мероприятий нет
+
+                if (data.length === 0) {
+
+                    eventsBlock.textContent =
+                        "Мероприятий пока нет.";
+
+                    return;
+
+                }
+
+
+
+                // Показываем количество
+
+                const count =
+                    document.createElement("p");
+
+                count.innerHTML =
+                    "<b>Всего мероприятий: " +
+                    data.length +
+                    "</b>";
+
+                eventsBlock.appendChild(count);
+
+
+
+                // Перебираем ВСЕ мероприятия
+
+                data.forEach(event => {
+
+
+                    const div =
+                        document.createElement("div");
+
+
+                    div.className =
+                        "event";
+
+
+
+                    div.innerHTML = `
+
+                        <h3>
+                            ${event.title ?? "Без названия"}
+                        </h3>
+
+                        <p>
+                            <b>ID:</b>
+                            ${event.id}
+                        </p>
+
+                        <p>
+                            <b>Статус:</b>
+                            ${event.status ?? ""}
+                        </p>
+
+                        <p>
+                            <b>Описание:</b>
+                            ${event.description ?? ""}
+                        </p>
+
+                        <p>
+                            <b>Дата начала:</b>
+                            ${formatDate(event.start_date)}
+                        </p>
+
+                        <p>
+                            <b>Дата окончания:</b>
+                            ${formatDate(event.end_date)}
+                        </p>
+
+                        <p>
+                            <b>Цена:</b>
+                            ${event.price ?? ""}
+                        </p>
+
+                        <p>
+                            <b>Изображение:</b>
+                            ${event.image_url ?? ""}
+                        </p>
+
+                        <p>
+                            <b>Источник:</b>
+                            ${event.source_url ?? ""}
+                        </p>
+
+                        <p>
+                            <b>Организатор:</b>
+                            ${event.broadcaster ?? ""}
+                        </p>
+
+                        <p>
+                            <b>18+:</b>
+                            ${event["18+"] ? "Да" : "Нет"}
+                        </p>
+
+                    `;
+
+
+
+                    // =================================
+                    // КНОПКА ИЗМЕНИТЬ
+                    // =================================
+
+                    const editButton =
+                        document.createElement("button");
+
+
+                    editButton.textContent =
+                        "Изменить";
+
+
+                    editButton.onclick =
+                        () => editEvent(event);
+
+
+
+                    // =================================
+                    // КНОПКА УДАЛИТЬ
+                    // =================================
+
+                    const deleteButton =
+                        document.createElement("button");
+
+
+                    deleteButton.textContent =
+                        "Удалить";
+
+
+                    deleteButton.onclick =
+                        () => deleteEvent(event.id);
+
+
+
+                    div.appendChild(editButton);
+
+                    div.appendChild(deleteButton);
+
+
+                    eventsBlock.appendChild(div);
+
+                });
+
 
             } catch (error) {
 
-                console.error(error);
+                eventsBlock.textContent =
+                    "Ошибка соединения с backend: " +
+                    error.message;
 
-                showMessage(
-                    "Ошибка: " +
-                    error.message
+            }
+
+        }
+
+
+
+        // =========================================
+        // ФОРМАТИРОВАНИЕ ДАТЫ
+        // =========================================
+
+        function formatDate(date) {
+
+
+            if (!date) {
+
+                return "";
+
+            }
+
+
+            return new Date(date)
+                .toLocaleString("ru-RU");
+
+        }
+
+
+
+        // =========================================
+        // ОТКРЫТЬ ФОРМУ СОЗДАНИЯ
+        // =========================================
+
+        document.getElementById("createEventButton")
+            .onclick =
+            () => {
+
+
+                editingEventId = null;
+
+
+                document.getElementById("formTitle")
+                    .textContent =
+                    "Создать мероприятие";
+
+
+                clearForm();
+
+
+                document.getElementById("eventForm")
+                    .classList.remove("hidden");
+
+            };
+
+
+
+        // =========================================
+        // ОТКРЫТЬ ФОРМУ РЕДАКТИРОВАНИЯ
+        // =========================================
+
+        function editEvent(event) {
+
+
+            editingEventId =
+                event.id;
+
+
+
+            document.getElementById("formTitle")
+                .textContent =
+                "Изменить мероприятие";
+
+
+
+            document.getElementById("eventTitle")
+                .value =
+                event.title ?? "";
+
+
+
+            document.getElementById("eventStatus")
+                .value =
+                event.status ?? "pending";
+
+
+
+            document.getElementById("eventDescription")
+                .value =
+                event.description ?? "";
+
+
+
+            document.getElementById("eventStartDate")
+                .value =
+                toDateInput(event.start_date);
+
+
+
+            document.getElementById("eventEndDate")
+                .value =
+                toDateInput(event.end_date);
+
+
+
+            document.getElementById("eventPrice")
+                .value =
+                event.price ?? "";
+
+
+
+            document.getElementById("eventImage")
+                .value =
+                event.image_url ?? "";
+
+
+
+            document.getElementById("eventSourceUrl")
+                .value =
+                event.source_url ?? "";
+
+
+
+            document.getElementById("eventBroadcaster")
+                .value =
+                event.broadcaster ?? "";
+
+
+
+            document.getElementById("event18")
+                .checked =
+                event["18+"] === true;
+
+
+
+            document.getElementById("eventForm")
+                .classList.remove("hidden");
+
+
+
+            // Перемещаем страницу к форме
+
+            document.getElementById("eventForm")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+        }
+
+
+
+        // =========================================
+        // ПРЕОБРАЗОВАНИЕ ДАТЫ
+        // =========================================
+
+        function toDateInput(date) {
+
+
+            if (!date) {
+
+                return "";
+
+            }
+
+
+
+            const d =
+                new Date(date);
+
+
+
+            const year =
+                d.getFullYear();
+
+
+            const month =
+                String(d.getMonth() + 1)
+                    .padStart(2, "0");
+
+
+            const day =
+                String(d.getDate())
+                    .padStart(2, "0");
+
+
+            const hours =
+                String(d.getHours())
+                    .padStart(2, "0");
+
+
+            const minutes =
+                String(d.getMinutes())
+                    .padStart(2, "0");
+
+
+
+            return (
+                year +
+                "-" +
+                month +
+                "-" +
+                day +
+                "T" +
+                hours +
+                ":" +
+                minutes
+            );
+
+        }
+
+
+
+        // =========================================
+        // ОЧИСТИТЬ ФОРМУ
+        // =========================================
+
+        function clearForm() {
+
+
+            document.getElementById("eventTitle")
+                .value = "";
+
+
+
+            document.getElementById("eventStatus")
+                .value = "pending";
+
+
+
+            document.getElementById("eventDescription")
+                .value = "";
+
+
+
+            document.getElementById("eventStartDate")
+                .value = "";
+
+
+
+            document.getElementById("eventEndDate")
+                .value = "";
+
+
+
+            document.getElementById("eventPrice")
+                .value = "";
+
+
+
+            document.getElementById("eventImage")
+                .value = "";
+
+
+
+            document.getElementById("eventSourceUrl")
+                .value = "";
+
+
+
+            document.getElementById("eventBroadcaster")
+                .value = "";
+
+
+
+            document.getElementById("event18")
+                .checked = false;
+
+
+
+            document.getElementById("formResult")
+                .textContent = "";
+
+        }
+
+
+
+        // =========================================
+        // СОХРАНЕНИЕ
+        // =========================================
+
+        document.getElementById("saveEvent")
+            .onclick =
+            async () => {
+
+
+                const eventData = {
+
+
+                    title:
+                        document.getElementById("eventTitle")
+                            .value,
+
+
+                    status:
+                        document.getElementById("eventStatus")
+                            .value,
+
+
+                    description:
+                        document.getElementById("eventDescription")
+                            .value,
+
+
+                    start_date:
+                        getDateValue("eventStartDate"),
+
+
+                    end_date:
+                        getDateValue("eventEndDate"),
+
+
+                    price:
+                        getPriceValue(),
+
+
+                    image_url:
+                        document.getElementById("eventImage")
+                            .value,
+
+
+                    source_url:
+                        document.getElementById("eventSourceUrl")
+                            .value,
+
+
+                    broadcaster:
+                        document.getElementById("eventBroadcaster")
+                            .value,
+
+
+                    "18+":
+                        document.getElementById("event18")
+                            .checked
+
+                };
+
+
+
+                // =================================
+                // СОЗДАНИЕ
+                // =================================
+
+                if (editingEventId === null) {
+
+
+                    const response =
+                        await fetch(
+
+                            API_URL + "/api/events",
+
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json",
+
+                                    Authorization:
+                                        "Bearer " + token
+
+                                },
+
+                                body:
+                                    JSON.stringify(eventData)
+
+                            }
+
+                        );
+
+
+
+                    const data =
+                        await response.json();
+
+
+
+                    if (!response.ok) {
+
+                        document.getElementById("formResult")
+                            .textContent =
+                            "Ошибка: " + data.error;
+
+                        return;
+
+                    }
+
+
+
+                    document.getElementById("formResult")
+                        .textContent =
+                        "Мероприятие создано!";
+
+                }
+
+
+
+                // =================================
+                // РЕДАКТИРОВАНИЕ
+                // =================================
+
+                else {
+
+
+                    const response =
+                        await fetch(
+
+                            API_URL +
+                            "/api/events/" +
+                            editingEventId,
+
+                            {
+
+                                method: "PUT",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json",
+
+                                    Authorization:
+                                        "Bearer " + token
+
+                                },
+
+                                body:
+                                    JSON.stringify(eventData)
+
+                            }
+
+                        );
+
+
+
+                    const data =
+                        await response.json();
+
+
+
+                    if (!response.ok) {
+
+                        document.getElementById("formResult")
+                            .textContent =
+                            "Ошибка: " + data.error;
+
+                        return;
+
+                    }
+
+
+
+                    document.getElementById("formResult")
+                        .textContent =
+                        "Мероприятие изменено!";
+
+                }
+
+
+
+                // Обновляем список
+
+                await loadEvents();
+
+
+
+                // Закрываем форму
+
+                document.getElementById("eventForm")
+                    .classList.add("hidden");
+
+            };
+
+
+
+        // =========================================
+        // ПОЛУЧЕНИЕ ДАТЫ
+        // =========================================
+
+        function getDateValue(id) {
+
+
+            const value =
+                document.getElementById(id).value;
+
+
+
+            if (!value) {
+
+                return null;
+
+            }
+
+
+
+            return new Date(value)
+                .toISOString();
+
+        }
+
+
+
+        // =========================================
+        // ПОЛУЧЕНИЕ ЦЕНЫ
+        // =========================================
+
+        function getPriceValue() {
+
+
+            const value =
+                document.getElementById("eventPrice")
+                    .value;
+
+
+
+            if (value === "") {
+
+                return null;
+
+            }
+
+
+
+            return Number(value);
+
+        }
+
+
+
+        // =========================================
+        // ОТМЕНА ФОРМЫ
+        // =========================================
+
+        document.getElementById("cancelForm")
+            .onclick =
+            () => {
+
+
+                document.getElementById("eventForm")
+                    .classList.add("hidden");
+
+
+                editingEventId = null;
+
+            };
+
+
+
+        // =========================================
+        // УДАЛЕНИЕ
+        // =========================================
+
+        async function deleteEvent(id) {
+
+
+            const confirmed =
+                confirm(
+                    "Удалить мероприятие?"
                 );
 
-            }
 
-        }
-    );
 
+            if (!confirmed) {
 
-/* ======================================
-   БЫСТРОЕ ИЗМЕНЕНИЕ СТАТУСА
-   ====================================== */
-
-async function changeStatus(id) {
-
-    const event =
-        allEvents.find(
-            item => Number(item.id) === Number(id)
-        );
-
-    if (!event) {
-        return;
-    }
-
-
-    const status =
-        prompt(
-            "Введите статус:\n\npending\napproved\nrejected",
-            event.status || "pending"
-        );
-
-
-    if (status === null) {
-        return;
-    }
-
-
-    const newStatus =
-        status.trim();
-
-
-    if (
-        ![
-            "pending",
-            "approved",
-            "rejected"
-        ].includes(newStatus)
-    ) {
-
-        alert(
-            "Допустимые статусы:\npending\napproved\nrejected"
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_URL}/events/update`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-                            id: Number(id),
-                            status: newStatus
-                        })
-                }
-            );
-
-
-        const result =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                result.error ||
-                `HTTP ${response.status}`
-            );
-
-        }
-
-
-        showMessage(
-            "Статус изменён"
-        );
-
-
-        await loadEvents();
-
-    } catch (error) {
-
-        console.error(error);
-
-        showMessage(
-            "Ошибка: " +
-            error.message
-        );
-
-    }
-
-}
-
-
-/* ======================================
-   УДАЛЕНИЕ
-   ====================================== */
-
-async function deleteEvent(id) {
-
-    const event =
-        allEvents.find(
-            item => Number(item.id) === Number(id)
-        );
-
-
-    const title =
-        event?.title ||
-        "это мероприятие";
-
-
-    if (
-        !confirm(
-            `Удалить «${title}»?\n\n` +
-            "Это действие нельзя отменить."
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-                `${API_URL}/events/delete?id=${encodeURIComponent(id)}`,
-                {
-                    method: "DELETE"
-                }
-            );
-
-
-        const result =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                result.error ||
-                `HTTP ${response.status}`
-            );
-
-        }
-
-
-        showMessage(
-            "Мероприятие удалено"
-        );
-
-
-        await loadEvents();
-
-    } catch (error) {
-
-        console.error(error);
-
-        showMessage(
-            "Ошибка: " +
-            error.message
-        );
-
-    }
-
-}
-
-
-/* ======================================
-   ДАТЫ
-   ====================================== */
-
-function toLocalDateTime(dateString) {
-
-    if (!dateString) {
-        return "";
-    }
-
-
-    const date =
-        new Date(dateString);
-
-
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return "";
-
-    }
-
-
-    const year =
-        date.getFullYear();
-
-
-    const month =
-        String(
-            date.getMonth() + 1
-        ).padStart(2, "0");
-
-
-    const day =
-        String(
-            date.getDate()
-        ).padStart(2, "0");
-
-
-    const hours =
-        String(
-            date.getHours()
-        ).padStart(2, "0");
-
-
-    const minutes =
-        String(
-            date.getMinutes()
-        ).padStart(2, "0");
-
-
-    return (
-        `${year}-${month}-${day}` +
-        `T${hours}:${minutes}`
-    );
-
-}
-
-
-function localToISOString(value) {
-
-    if (!value) {
-        return null;
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return null;
-
-    }
-
-
-    return date.toISOString();
-
-}
-
-
-function formatDate(value) {
-
-    if (!value) {
-        return "—";
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return "—";
-
-    }
-
-
-    return date.toLocaleString(
-        "ru-RU",
-        {
-            dateStyle: "short",
-            timeStyle: "short"
-        }
-    );
-
-}
-
-
-/* ======================================
-   HTML ESCAPE
-   ====================================== */
-
-function escapeHTML(value) {
-
-    return String(value)
-
-        .replaceAll(
-            "&",
-            "&amp;"
-        )
-
-        .replaceAll(
-            "<",
-            "&lt;"
-        )
-
-        .replaceAll(
-            ">",
-            "&gt;"
-        )
-
-        .replaceAll(
-            '"',
-            "&quot;"
-        )
-
-        .replaceAll(
-            "'",
-            "&#039;"
-        );
-
-}
-
-
-function escapeAttribute(value) {
-
-    return escapeHTML(value);
-
-}
-
-
-/* ======================================
-   УВЕДОМЛЕНИЕ
-   ====================================== */
-
-function showMessage(text) {
-
-    const message =
-        document.getElementById(
-            "message"
-        );
-
-
-    message.textContent =
-        text;
-
-
-    message.classList.add(
-        "active"
-    );
-
-
-    setTimeout(
-        () => {
-
-            message.classList.remove(
-                "active"
-            );
-
-        },
-        2500
-    );
-
-}
-
-
-/* ======================================
-   ЗАКРЫТИЕ ПО ФОНУ
-   ====================================== */
-
-document
-    .getElementById("edit-modal")
-    .addEventListener(
-        "click",
-        function(event) {
-
-            if (
-                event.target === this
-            ) {
-
-                closeEditModal();
+                return;
 
             }
 
+
+
+            const response =
+                await fetch(
+
+                    API_URL +
+                    "/api/events/" +
+                    id,
+
+                    {
+
+                        method: "DELETE",
+
+                        headers: {
+
+                            Authorization:
+                                "Bearer " + token
+
+                        }
+
+                    }
+
+                );
+
+
+
+            const data =
+                await response.json();
+
+
+
+            if (!response.ok) {
+
+                alert(
+                    "Ошибка: " + data.error
+                );
+
+                return;
+
+            }
+
+
+
+            // Обновляем список
+
+            loadEvents();
+
         }
-    );
 
 
-/* ======================================
-   ESC
-   ====================================== */
 
-document.addEventListener(
-    "keydown",
-    function(event) {
+        // =========================================
+        // ОБНОВИТЬ
+        // =========================================
 
-        if (
-            event.key === "Escape"
-        ) {
-
-            closeEditModal();
-
-        }
-
-    }
-);
+        document.getElementById("loadEvents")
+            .onclick =
+            () => loadEvents();
 
 
-/* ======================================
-   START
-   ====================================== */
 
-loadEvents();
+        // =========================================
+        // ВЫХОД
+        // =========================================
 
-</script>
+        document.getElementById("logout")
+            .onclick =
+            async () => {
+
+
+                await supabase.auth.signOut();
+
+
+
+                token = null;
+
+
+
+                editingEventId = null;
+
+
+
+                document.getElementById("loginBlock")
+                    .classList.remove("hidden");
+
+
+
+                document.getElementById("adminBlock")
+                    .classList.add("hidden");
+
+
+
+                document.getElementById("events")
+                    .innerHTML = "";
+
+
+
+                document.getElementById("eventForm")
+                    .classList.add("hidden");
+
+            };
+
+
+    </script>
+
 
 </body>
+
 </html>
